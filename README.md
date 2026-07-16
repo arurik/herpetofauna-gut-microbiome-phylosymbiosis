@@ -9,14 +9,14 @@ This repository contains the R scripts used to process, clean, and analyze 16S r
 microbiomes across a phylogenetically diverse set of reptile and amphibian hosts
 (snakes, lizards, turtles, tortoises, crocodilians, frogs, toads, and salamanders).
 Absolute microbial abundances were quantified using the DspikeIn spike-in
-normalization protocol (Ghotbi et al. 2025, *ISME Communications*, 2025).
+normalization protocol (Ghotbi et al. 2025, *The ISME Journal*).
 
 ## Data availability
 
 - Raw sequencing reads: deposited in NCBI SRA under accession PRJNA932855
 - Raw data: (OTU/count tables, taxonomy tables, sample metadata,
   phylogenetic trees, and other files used as direct input to these scripts)
-  archived on FigShare with DOI [in progress]
+  archived on FigShare with DOI [https://doi.org/10.6084/m9.figshare.32927786]
 - Code (this repository): archived at the time of publication; see [Zenodo DOI, in progress]
 
 ## Repository contents
