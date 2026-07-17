@@ -60,18 +60,31 @@ No non-standard or specialized hardware is required.
 5. Typical install time: ~15 minutes on a normal desktop
 
 ## Demo
-A separate demo dataset was not created for this repository. These scripts are
-standard analysis code (not standalone software) designed to run directly on
-this study's own published dataset, which is fully public (Figshare DOI:
-10.6084/m9.figshare.32927786; NCBI SRA: PRJNA932855). Running the pipeline on
-this published dataset, as described below, serves the same verification
-purpose a separate demo dataset would.
+A small, self-contained demo is provided in `scripts/00_demo.R`. This script
+simulates a toy dataset (10 host species, a random phylogeny, simulated OTU
+counts, and categorical diet/habitat predictors) entirely in-memory — no
+external files or downloads required — and runs a reduced version of the
+bootstrap MRM phylosymbiosis workflow used in the manuscript (5 iterations
+rather than the 100 used in the full analysis), using the same core
+functions and logic as `scripts/10_mrm_phylosymbiosis.R`.
+
+**Note:** results from this demo are not biologically meaningful and will
+not resemble the manuscript's findings; it exists solely to verify the code
+runs correctly end-to-end.
+
+**To run:** `Rscript scripts/00_demo.R`
+
+**Expected output:** a printed summary table of mean/SD MRM coefficients
+per predictor (phylogeny, diet, habitat, geography) across bootstrap iterations.
+
+**Expected runtime:** well under 1 minute on a normal desktop computer.
 
 ## Repository contents
 All analysis code is in `scripts/`, numbered in the order they are meant to be run:
 
 | Script | Purpose |
 |---|---|
+| `00_demo` |  Self-contained demo on simulated data (10 host species, random phylogeny, simulated OTU counts, simulated GPS coordinates, and categorical diet/habitat predictors); runs a reduced bootstrap MRM phylosymbiosis workflow (5 iterations) to verify the analysis code runs correctly end-to-end. Results are not biologically meaningful. |
 | `01a_dspikein_16S` / `01b_dspikein_ITS` | Spike-in based absolute abundance quantification (DspikeIn) |
 | `02a_decontam_16S` | Contaminant removal (16S), read-depth filtering |
 | `02b_decontam_ITS_blast1` / `02c_decontam_ITS_blast2_integration` | Contaminant removal (ITS), BLAST-based taxonomic verification |
