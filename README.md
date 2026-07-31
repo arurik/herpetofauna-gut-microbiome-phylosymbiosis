@@ -1,6 +1,6 @@
 # Herpetofauna Gut Microbiome Phylosymbiosis
 
-<p align="center" style="font-size: 2em;">
+<p align="left" style="font-size: 32px;">
 🐍 🦎 🐢 🐊 🐸 &nbsp;•&nbsp; 🦠 &nbsp;•&nbsp; 🌳
 </p>
 
