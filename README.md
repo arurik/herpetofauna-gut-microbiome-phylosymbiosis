@@ -4,8 +4,8 @@
 🐍 🦎 🐢 🐊 🐸
 </p>
 
-<p align="center">
-<i> .</i>
+<p align="left">
+<i> </i>
 </p>
 
 <p align="center">
