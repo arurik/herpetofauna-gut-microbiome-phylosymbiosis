@@ -3,7 +3,9 @@
 <p align="left" style="font-size: 32px;">
 🐍 🦎 🐢 🐊 🐸 &nbsp;•&nbsp; 🦠 &nbsp;•&nbsp; 🌳
 </p>
-
+<h2 align="left">
+🐍 🦎 🐢 🐊 🐸 &nbsp;•&nbsp; 🦠 &nbsp;•&nbsp; 🌳
+</h2>
 
 Code accompanying:
 > Rurik et al., in prep
