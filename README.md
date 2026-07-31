@@ -2,8 +2,9 @@
 
  
 <h2 align="left">
-🐍 🦎 🐢 🐊 🐸 &nbsp;→&nbsp; 🧬 🦠 🍄
+🐍 🦎 🐢 🐊 🐸 &nbsp;→ &nbsp; 🧬 🧪 🍄
 </h2>
+
 
 Code accompanying:
 > Rurik et al., in prep
