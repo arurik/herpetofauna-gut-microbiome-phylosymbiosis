@@ -1,6 +1,9 @@
 ---------------------------------------------------
-🐍🦎🐢🐊🐸
-Herpetofauna Gut Microbiome Phylosymbiosis
+# Herpetofauna Gut Microbiome Phylosymbiosis
+
+<p align="center">
+🧬 🦠 🌳 🐍 🦎 🐢 🐊 🐸
+</p>
 ---------------------------------------------------
 [![R](https://img.shields.io/badge/R-4.5.1-276DC3?logo=r)](https://cran.r-project.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
