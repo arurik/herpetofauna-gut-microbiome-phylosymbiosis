@@ -5,7 +5,7 @@
 [![DOI](https://img.shields.io/badge/DOI-ISME%20Journal-blue)](https://doi.org/10.1093/ismejo/wraf150)
 [![Data](https://img.shields.io/badge/Data-Figshare-orange)](https://doi.org/10.6084/m9.figshare.32927786)
 [![SRA](https://img.shields.io/badge/SRA-PRJNA932855-red)](https://www.ncbi.nlm.nih.gov/bioproject/PRJNA932855)
-![Manuscript](https://img.shields.io/badge/Manuscript-Submitted%20to%20Nature%20Communications-orange)
+ 
 
 Code accompanying:
 > Rurik et al., in prep
