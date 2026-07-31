@@ -5,7 +5,7 @@
 </p>
 
 <p align="center">
-<i>Reproducible R workflow for cross-kingdom gut microbiome analyses and phylosymbiosis.</i>
+<i> .</i>
 </p>
 
 <p align="center">
