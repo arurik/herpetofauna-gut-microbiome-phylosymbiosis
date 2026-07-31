@@ -7,8 +7,7 @@ This repository contains the R scripts used to process, clean, and analyze 16S r
 (bacterial) and ITS1 rDNA (fungal) amplicon sequencing data characterizing gut
 microbiomes across a phylogenetically diverse set of reptile and amphibian hosts
 (snakes, lizards, turtles, tortoises, crocodilians, frogs, toads, and salamanders).
-Absolute microbial abundances were quantified using the DspikeIn spike-in
-normalization protocol (Ghotbi et al. 2025, *The ISME Journal*).
+Absolute microbial abundances were quantified using the DspikeIn spike-in normalization protocol described by [Ghotbi et al. (2025)](https://doi.org/10.1093/ismejo/wraf150).
 
 ## Data availability
 - Raw sequencing reads: deposited in NCBI SRA under accession PRJNA932855
