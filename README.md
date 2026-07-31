@@ -1,17 +1,21 @@
----------------------------------------------------
 # Herpetofauna Gut Microbiome Phylosymbiosis
 
 <p align="center">
-🧬 🦠 🌳 🐍 🦎 🐢 🐊 🐸
+🧬 🦠 🌳 &nbsp;&nbsp; 🐍 🦎 🐢 🐊 🐸
 </p>
----------------------------------------------------
+
+<p align="center">
+<i>Reproducible R workflow for cross-kingdom gut microbiome analyses and phylosymbiosis across reptiles and amphibians.</i>
+</p>
+
+<p align="center">
+
 [![R](https://img.shields.io/badge/R-4.5.1-276DC3?logo=r)](https://cran.r-project.org/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
-[![DOI](https://img.shields.io/badge/DOI-ISME%20Journal-blue)](https://doi.org/10.1093/ismejo/wraf150)
 [![Data](https://img.shields.io/badge/Data-Figshare-orange)](https://doi.org/10.6084/m9.figshare.32927786)
 [![SRA](https://img.shields.io/badge/SRA-PRJNA932855-red)](https://www.ncbi.nlm.nih.gov/bioproject/PRJNA932855)
- 
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
+</p>
 Code accompanying:
 > Rurik et al., in prep
 
