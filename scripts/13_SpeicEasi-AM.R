@@ -620,7 +620,7 @@ p_mantel <- ggplot2::ggplot(
     y = "SPIEC-EASI complete-network dissimilarity\n(Jaccard edge-set distance)")
 
 # ------------------------------------------------------------
-# 12. Panels C-H: complete SPIEC-EASI networks
+# 12. Panels C-H: SPIEC-EASI networks
 # ------------------------------------------------------------
 
 complete_graphs <- purrr::map(
@@ -661,7 +661,7 @@ p_legend <- make_manual_legend(
   degree_values = degree_values)
 
 # ------------------------------------------------------------
-# 13. ov figure
+# 13. figure alles
 # ------------------------------------------------------------
 
 fig5_complete <- (p_tree | p_mantel) /
