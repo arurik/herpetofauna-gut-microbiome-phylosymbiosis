@@ -30,7 +30,7 @@ Absolute microbial abundances were quantified using the DspikeIn spike-in normal
 - Code (this repository): archived at the time of publication; see [Zenodo DOI, in progress]
 - TetrapodTraits v3.0.0 (Moura et al. 2024), used for the diet predictor in
   `10_mrm_phylosymbiosis`, is a third-party dataset and is not redistributed
-  here — download it from its original source and place it in `data/raw/`
+  here. Download it from its original source and place it in `data/raw/`
   before running that script.
 
 ## System requirements
@@ -55,17 +55,17 @@ ITSXpress v2.1.4, SILVA v138, UNITE v10 / UNITE+INSDC v10, BLAST+, decontam v1.2
 - `phytools` v2.5-2
 - `phylosignal` v1.3.1
 - `SpiecEasi` v1.1.1
-- `igraph`
+- `igraph` v2.3.1
 - `rstatix` v0.7.2
-- `TreeDist` (topological congruence test, `14_topology_matching_split`)
-- `phangorn` (UPGMA microbiome dendrograms, `14_topology_matching_split`)
+- `TreeDist` v2.14.1
+- `phangorn` v2.12.1
 - `DspikeIn` (see Ghotbi et al. 2025)
 - `tidyverse`, `ggtree`, `here`
 
 Network visualizations were additionally rendered in Cytoscape (not required to
 reproduce underlying statistical results, only figure layout).
 
-Tested on: macOS 26.5.2 (Tahoe)
+Tested on: macOS 26.5.2 (Tahoe).
 No non-standard or specialized hardware is required.
 
 ## Installation guide
@@ -81,7 +81,7 @@ No non-standard or specialized hardware is required.
 A small, self-contained demo is provided in `scripts/00_demo.r`. This script
 simulates a toy dataset (10 host species, a random phylogeny, simulated OTU
 counts, a 10-component binary diet matrix, and a categorical habitat
-predictor) entirely in-memory — no external files or downloads required —
+predictor) entirely in-memory (no external files or downloads required)
 and runs a reduced version of the bootstrap MRM phylosymbiosis workflow used
 in the manuscript (5 iterations rather than the 100 used in the full
 analysis), using the same core functions and logic as
@@ -119,7 +119,7 @@ All analysis code is in `scripts/`, numbered in the order they are meant to be r
 | `11_physignal_per_genera` | Phylogenetic signal (Pagel's λ) in microbial lineage abundances |
 | `12_basid_nmds_permanova_test` | Sensitivity analysis: influence of *Basidiobolus* on fungal ordination (wild samples only) |
 | `13_network_analyses` | Cross-kingdom bacterial-fungal association network inference (SPIEC-EASI), topological role classification, and network-phylosymbiosis (Mantel) tests |
-| `14_topology_matching_split` | Topological congruence test (Matching Split distance) — a second, independent class of phylosymbiosis test (host phylogeny vs. UPGMA microbiome dendrogram), complementing the MRM/Mantel approach in `10_mrm_phylosymbiosis` |
+| `14_topology_matching_split` | Topological congruence test (Matching Split distance). A second, independent class of phylosymbiosis test (host phylogeny vs. UPGMA microbiome dendrogram), complementing the MRM approach in `10_mrm_phylosymbiosis` |
 
 ## Instructions for use
 1. Download the published dataset from Figshare (DOI: 10.6084/m9.figshare.32927786)
