@@ -104,7 +104,7 @@ All analysis code is in `scripts/`, numbered in the order they are meant to be r
 
 | Script | Purpose |
 |---|---|
-| `00_demo` |  Self-contained demo on simulated data (10 host species, random phylogeny, simulated OTU counts, simulated GPS coordinates, a binary diet matrix, and a categorical habitat predictor); runs a reduced bootstrap MRM phylosymbiosis workflow (5 iterations) to verify the analysis code runs correctly end-to-end. Results are not biologically meaningful. |
+| `00_demo` |  Self-contained demo on simulated data (10 host species, random phylogeny, simulated OTU counts, simulated GPS coordinates, a diet matrix, and a categorical habitat predictor); runs a reduced bootstrap MRM phylosymbiosis workflow (5 iterations) to verify the analysis code runs correctly end-to-end. Results are not biologically meaningful. |
 | `01a_dspikein_16S` / `01b_dspikein_ITS` | Spike-in based absolute abundance quantification (DspikeIn) |
 | `02a_decontam_16S` | Contaminant removal (16S), read-depth filtering |
 | `02b_decontam_ITS_blast1` / `02c_decontam_ITS_blast2_integration` | Contaminant removal (ITS), BLAST-based taxonomic verification |
