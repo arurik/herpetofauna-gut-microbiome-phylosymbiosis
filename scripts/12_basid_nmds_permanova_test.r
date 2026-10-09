@@ -41,19 +41,28 @@ dir_tables    <- here("output", "tables")
 ps_ITS <- readRDS(file.path(dir_processed, "ITS_abs_final_fecal.rds"))
 
 # ===========================================================================
-# 2) Subset to amphibians only and remove outlier
+# 2) Subset to amphibians only, wild individuals only, and remove outlier
+#    CORRECTED 260901: original version did not filter by management status,
+#    so it inadvertently included ex situ managed individuals (Dataset D3)
+#    rather than the intended wild-only dataset (Dataset D4). Added explicit
+#    filter on env_broad_scale == "Wild" below.
 # ===========================================================================
-ps_amph <- subset_samples(ps_ITS, Clade_Order %in% c("Anura", "Caudata"))
+ps_amph <- subset_samples(ps_ITS, Clade_Order %in% c("Anura", "Caudata") &
+                                    env_broad_scale == "Wild")
 
 # Remove outlier: UHM1483-34786 (Telmatobius culeus)
 # Identified as extreme NMDS outlier (MDS1 = 910.9)
 ps_amph <- prune_samples(sample_names(ps_amph) != "UHM1483-34786", ps_amph)
 ps_amph <- prune_taxa(taxa_sums(ps_amph) > 0, ps_amph)
 
-cat("Amphibian-only phyloseq object (outlier removed):\n")
+cat("Amphibian-only, wild-only phyloseq object (outlier removed):\n")
 print(ps_amph)
 cat("Sample counts by order:\n")
 print(table(sample_data(ps_amph)$Clade_Order))
+
+# Sanity check: confirm no Managed samples slipped through
+cat("Management status check (should show Wild only):\n")
+print(table(sample_data(ps_amph)$env_broad_scale))
 
 # ===========================================================================
 # 3) Extract OTU matrix and identify Basidiobolus OTUs
@@ -357,7 +366,7 @@ plot_E
 twopanel_bc <- (plot_A + plot_B) +
   plot_layout(ncol = 2, guides = "collect") +
   plot_annotation(
-    tag_levels = "A",
+    tag_levels = "a",
     theme = theme(plot.tag = element_text(size = 11, face = "bold"))
   )
 twopanel_bc
@@ -366,7 +375,7 @@ twopanel_bc
 twopanel_jac <- (plot_D + plot_E) +
   plot_layout(ncol = 2, guides = "collect") +
   plot_annotation(
-    tag_levels = "A",
+    tag_levels = "a",
     theme = theme(plot.tag = element_text(size = 11, face = "bold"))
   )
 twopanel_jac

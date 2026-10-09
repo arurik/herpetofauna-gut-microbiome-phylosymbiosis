@@ -1,30 +1,110 @@
 # Herpetofauna Gut Microbiome Phylosymbiosis
 
-Code accompanying:
+[![R](https://img.shields.io/badge/R-4.5.1-276DC3?logo=r)](https://cran.r-project.org/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+[![DOI](https://img.shields.io/badge/DOI-ISME%20Journal-blue)](https://doi.org/10.1093/ismejo/wraf150)
+[![Data](https://img.shields.io/badge/Data-Figshare-orange)](https://doi.org/10.6084/m9.figshare.32927786)
+[![SRA](https://img.shields.io/badge/SRA-PRJNA932855-red)](https://www.ncbi.nlm.nih.gov/bioproject/PRJNA932855)
 
+
+ 
+<h2 align="left">
+🐍 🦎 🐢 🐊 🐸 &nbsp;→ &nbsp; 🧬 🧪 🍄
+</h2>
+
+
+Code accompanying:
 > Rurik et al., in prep
 
 This repository contains the R scripts used to process, clean, and analyze 16S rRNA
 (bacterial) and ITS1 rDNA (fungal) amplicon sequencing data characterizing gut
 microbiomes across a phylogenetically diverse set of reptile and amphibian hosts
 (snakes, lizards, turtles, tortoises, crocodilians, frogs, toads, and salamanders).
-Absolute microbial abundances were quantified using the DspikeIn spike-in
-normalization protocol (Ghotbi et al. 2025, *ISME Communications*, 2025).
+Absolute microbial abundances were quantified using the DspikeIn spike-in normalization protocol described by [Ghotbi et al. (2025)](https://doi.org/10.1093/ismejo/wraf150).
 
 ## Data availability
-
 - Raw sequencing reads: deposited in NCBI SRA under accession PRJNA932855
 - Raw data: (OTU/count tables, taxonomy tables, sample metadata,
   phylogenetic trees, and other files used as direct input to these scripts)
-  archived on FigShare with DOI [in progress]
+  archived on FigShare with DOI [https://doi.org/10.6084/m9.figshare.32927786]
 - Code (this repository): archived at the time of publication; see [Zenodo DOI, in progress]
+- TetrapodTraits v3.0.0 (Moura et al. 2024), used for the diet predictor in
+  `10_mrm_phylosymbiosis`, is a third-party dataset and is not redistributed
+  here — download it from its original source and place it in `data/raw/`
+  before running that script.
+
+## System requirements
+
+**Note:** the versions listed below reflect what was used to generate the results
+in this paper and are provided for exact reproducibility; they are not strict
+requirements. These analyses do not rely on version-specific behavior and are
+expected to run correctly on reasonably current versions of R and these
+packages, subject to normal package-to-package compatibility.
+
+**Bioinformatic processing (upstream of this repository):**
+QIIME2 v2025.7, Cutadapt v5.1, DADA2 v1.26.0, FIGARO v1.1.2, VSEARCH v2.22.1,
+ITSXpress v2.1.4, SILVA v138, UNITE v10 / UNITE+INSDC v10, BLAST+, decontam v1.28.0
+
+**R environment (this repository):** R v4.5.1, using:
+- `phyloseq` v1.52.0
+- `vegan` v2.7.2
+- `ecodist` v2.1.3
+- `ape` v5.8-1
+- `geosphere` v1.5-20
+- `cluster` v2.1.8.1
+- `phytools` v2.5-2
+- `phylosignal` v1.3.1
+- `SpiecEasi` v1.1.1
+- `igraph`
+- `rstatix` v0.7.2
+- `TreeDist` (topological congruence test, `14_topology_matching_split`)
+- `phangorn` (UPGMA microbiome dendrograms, `14_topology_matching_split`)
+- `DspikeIn` (see Ghotbi et al. 2025)
+- `tidyverse`, `ggtree`, `here`
+
+Network visualizations were additionally rendered in Cytoscape (not required to
+reproduce underlying statistical results, only figure layout).
+
+Tested on: macOS 26.5.2 (Tahoe)
+No non-standard or specialized hardware is required.
+
+## Installation guide
+1. Clone this repository: `git clone https://github.com/arurik/herpetofauna-gut-microbiome-phylosymbiosis`
+2. Install R (v4.5.1) from CRAN
+3. Install required packages from CRAN (`vegan`, `ecodist`, `ape`, `geosphere`,
+   `cluster`, `phytools`, `phylosignal`, `igraph`, `rstatix`, `phyloseq`,
+   `tidyverse`, `ggtree`, `here`, `TreeDist`, `phangorn`)
+4. Install `SpiecEasi` and `DspikeIn` via GitHub (`devtools::install_github(...)`)
+5. Typical install time: ~15 minutes on a normal desktop
+
+## Demo
+A small, self-contained demo is provided in `scripts/00_demo.r`. This script
+simulates a toy dataset (10 host species, a random phylogeny, simulated OTU
+counts, a 10-component binary diet matrix, and a categorical habitat
+predictor) entirely in-memory — no external files or downloads required —
+and runs a reduced version of the bootstrap MRM phylosymbiosis workflow used
+in the manuscript (5 iterations rather than the 100 used in the full
+analysis), using the same core functions and logic as
+`scripts/10_mrm_phylosymbiosis.r`, including its TetrapodTraits-style binary
+diet distance.
+
+**Note:** results from this demo are not biologically meaningful and will
+not resemble the manuscript's findings; it exists solely to verify the code
+runs correctly end-to-end.
+
+**To run:** `Rscript scripts/00_demo.r`
+
+**Expected output:** a printed summary table of mean/SD MRM coefficients
+per predictor (phylogeny, diet, habitat, geography) across bootstrap iterations.
+
+**Expected runtime:** well under 1 minute on a normal desktop computer.
 
 ## Repository contents
-
 All analysis code is in `scripts/`, numbered in the order they are meant to be run:
 
 | Script | Purpose |
 |---|---|
+| `00_demo` |  Self-contained demo on simulated data (10 host species, random phylogeny, simulated OTU counts, simulated GPS coordinates, a binary diet matrix, and a categorical habitat predictor); runs a reduced bootstrap MRM phylosymbiosis workflow (5 iterations) to verify the analysis code runs correctly end-to-end. Results are not biologically meaningful. |
 | `01a_dspikein_16S` / `01b_dspikein_ITS` | Spike-in based absolute abundance quantification (DspikeIn) |
 | `02a_decontam_16S` | Contaminant removal (16S), read-depth filtering |
 | `02b_decontam_ITS_blast1` / `02c_decontam_ITS_blast2_integration` | Contaminant removal (ITS), BLAST-based taxonomic verification |
@@ -35,39 +115,40 @@ All analysis code is in `scripts/`, numbered in the order they are meant to be r
 | `07_sample_type_test_split` | Sample-type (fecal/cloacal/lower-GI) comparison and dataset splitting |
 | `08_alpha_div` | Alpha diversity analyses |
 | `09_core_mb` | Core microbiome analysis |
-| `10_mrm_phylosymbiosis` | Multiple regression on distance matrices (MRM), phylosymbiosis testing |
+| `10_mrm_phylosymbiosis` | Multiple regression on distance matrices (MRM), phylosymbiosis testing; diet predictor built from TetrapodTraits v3.0.0 (Moura et al. 2024) |
 | `11_physignal_per_genera` | Phylogenetic signal (Pagel's λ) in microbial lineage abundances |
-| `12_basid_nmds_permanova_test` | Sensitivity analysis: influence of *Basidiobolus* on fungal ordination |
+| `12_basid_nmds_permanova_test` | Sensitivity analysis: influence of *Basidiobolus* on fungal ordination (wild samples only) |
+| `13_network_analyses` | Cross-kingdom bacterial-fungal association network inference (SPIEC-EASI), topological role classification, and network-phylosymbiosis (Mantel) tests |
+| `14_topology_matching_split` | Topological congruence test (Matching Split distance) — a second, independent class of phylosymbiosis test (host phylogeny vs. UPGMA microbiome dendrogram), complementing the MRM/Mantel approach in `10_mrm_phylosymbiosis` |
 
-## Running this code
+## Instructions for use
+1. Download the published dataset from Figshare (DOI: 10.6084/m9.figshare.32927786)
+2. Place files into the folder structure below
+3. Run scripts in `scripts/` in numerical order — each script's inputs are
+   produced by an earlier script in the sequence; see each file's header
+   comment for a description
+4. Running the full pipeline (scripts 01–14) on the complete published dataset
+   reproduces all quantitative results, figures, and supplementary tables
+   reported in the manuscript. Detailed parameters (filtering thresholds,
+   model specifications, statistical test settings) for each analysis step
+   are described in the manuscript's Methods section.
 
 These scripts expect a local project structure (not included in this repository)
-with the following folders, populated from the data above:
-
-```
-data/
-├── raw/
-│   ├── 16S/      (count table, taxonomy table, metadata CSV)
-│   ├── ITS/      (count table, taxonomy table, metadata CSV)
-│   └── trees/    (.nwk phylogenies used for figures and phylogenetic analyses)
-└── processed/    (intermediate/final phyloseq objects; generated by the pipeline)
-output/
-├── figures/
-└── tables/
-```
+populated from the data above:
+- data/raw/16S/(count table, taxonomy table, metadata CSV)
+- data/raw/ITS/(count table, taxonomy table, metadata CSV, BLAST result files)
+- data/raw/trees/(.nwk phylogenies used for figures and phylogenetic analyses)
+- data/raw/TetrapodTraits_v3.0.0.csv (third-party; download separately, see Data availability)
+- data/processed/(intermediate/final phyloseq objects; generated by the pipeline)
+- output/figures/
+- output/tables/
 
 Scripts use the `here` R package to reference these folders relative to the
 project root, so paths will resolve correctly as long as this structure exists
 alongside the `scripts/` folder and R is run from the project root (e.g., via an
 `.Rproj` file, or by calling `here::i_am()` manually).
 
-Run scripts in numerical order. Each script's inputs are produced by an earlier
-script in the sequence. See the header comment in each file for a description of the script.
-
-Analyses were run in R 4.5.1 using `phyloseq`, `vegan`, `tidyverse`, `ape`, `phytools`, `ggtree`, `DspikeIn`, and related packages; package versions are not pinned in this repository.
-
 ## Questions
-
 For questions about the code, data, or requests for unmasked GPS coordinates
 (withheld from public data/metadata for a subset of samples to protect
 collection sites of poaching-sensitive species), contact the corresponding
