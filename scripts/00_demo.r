@@ -11,6 +11,16 @@
 # biologically meaningful and will not resemble the manuscript's findings.
 # This script exists solely to verify the core analysis code runs correctly.
 #
+# REVISION NOTE: Diet is now represented using a 10-column binary diet
+# scheme (mirroring the TetrapodTraits-derived predictor in scripts/10_mrm_
+# phylosymbiosis.R Section 2), combined via Jaccard distance on the binary
+# matrix (mathematically equivalent to asymmetric-binary Gower for pure
+# presence/absence data, but -- per calc_all_distances() in
+# scripts/10_mrm_phylosymbiosis.R -- daisy()+type=asymm Gower was found to
+# break ecodist::MRM() during testing, so vegan::vegdist(..., "jaccard",
+# binary = TRUE) is used instead), replacing the original 3-category Diet
+# factor.
+#
 # ANALYSIS ORDER:
 #   Part 1 - Simulate host phylogeny, community, GPS, and predictor data
 #   Part 2 - Bootstrap MRM (community ~ phylogeny + geography + diet + habitat)
@@ -61,17 +71,25 @@ species_gps <- data.frame(
   gps_n   = runif(n_species, min = 28, max = 40)
 )
 
+# Species-level binary diet matrix (10 EltonTraits-style components, mirroring
+# the TetrapodTraits-derived predictor in scripts/10_mrm_phylosymbiosis.R)
+diet_cols <- c("Inv", "Vend", "Vect", "Vfish", "Vunk",
+               "Scav", "Fruit", "Nect", "Seed", "Plant")
+species_diet <- as.data.frame(
+  matrix(rbinom(n_species * length(diet_cols), 1, 0.3),
+         nrow = n_species, dimnames = list(demo_tree$tip.label, diet_cols))
+)
+species_diet$species <- rownames(species_diet)
+
 demo_meta <- data.frame(
   sample_id = rownames(demo_counts),
   species   = rep(demo_tree$tip.label, each = n_per_sp),
-  Diet      = as.factor(sample(c("Carnivore", "Herbivore", "Omnivore"),
-                               n_species, replace = TRUE)[
-                                 rep(seq_len(n_species), each = n_per_sp)]),
   Habitat   = as.factor(sample(c("Aquatic", "Terrestrial", "Arboreal"),
                                n_species, replace = TRUE)[
                                  rep(seq_len(n_species), each = n_per_sp)])
 ) %>%
-  left_join(species_gps, by = "species")
+  left_join(species_gps, by = "species") %>%
+  left_join(species_diet, by = "species")
 
 cat("Simulated community:", nrow(demo_counts), "samples,",
     ncol(demo_counts), "OTUs across", n_species, "host species\n\n")
@@ -97,39 +115,44 @@ phylo_dist_full <- rescale_dist(cophenetic(demo_tree))
 boot_results <- vector("list", n_bootstrap)
 
 for (i in seq_len(n_bootstrap)) {
-  
+
   # one random individual per species, mirroring the real bootstrap design
   boot_ids <- demo_meta %>%
     group_by(species) %>%
     slice_sample(n = 1) %>%
     pull(sample_id)
-  
+
   meta_sub <- demo_meta %>%
     filter(sample_id %in% boot_ids) %>%
     arrange(match(sample_id, boot_ids))
-  
+
   comm_sub <- as.matrix(comm_dist_full)[boot_ids, boot_ids]
-  
+
   phylo_sub <- as.matrix(phylo_dist_full)[
     match(meta_sub$species, demo_tree$tip.label),
     match(meta_sub$species, demo_tree$tip.label)
   ]
   dimnames(phylo_sub) <- list(boot_ids, boot_ids)
-  
+
   # Geographic distance (great-circle km, rescaled to [0,1]; same approach
   # as calc_all_distances() in scripts/10_mrm_phylosymbiosis.R)
   coord_mat <- as.matrix(meta_sub[, c("gps_w", "gps_n")])
   g_mat     <- geosphere::distm(coord_mat, fun = geosphere::distGeo) / 1000
   dimnames(g_mat) <- list(boot_ids, boot_ids)
   geo_sub   <- rescale_dist(as.dist(g_mat))
-  
-  diet_dist    <- daisy(meta_sub["Diet"],    metric = "gower")
+
+  # Diet distance: 10-component binary matrix, Jaccard (same approach as
+  # calc_all_distances() in scripts/10_mrm_phylosymbiosis.R, which uses
+  # TetrapodTraits-derived diet data on the real dataset)
+  diet_df      <- meta_sub[diet_cols]
+  rownames(diet_df) <- boot_ids
+  diet_dist    <- vegan::vegdist(diet_df, method = "jaccard", binary = TRUE)
   habitat_dist <- daisy(meta_sub["Habitat"], metric = "gower")
-  
+
   fit <- MRM(as.dist(comm_sub) ~ as.dist(phylo_sub) + geo_sub +
                diet_dist + habitat_dist,
              nperm = 99)
-  
+
   boot_results[[i]] <- fit$coef %>%
     as.data.frame() %>%
     rownames_to_column("predictor") %>%
